@@ -51,12 +51,24 @@ export async function getUserWithHostProfile(
   if (!data) return null
 
   // Supabase returns related table as an array if it's 1-to-many OR as a single object if defined as 1-to-1/inner joined
-  const profileData = (data as any).host_profiles
-  const profile = Array.isArray(profileData) 
+  const profileData = (data as any).host_pages || (data as any).host_profiles
+  let profile = Array.isArray(profileData) 
     ? (profileData.length > 0 ? profileData[0] : null) 
     : (profileData || null)
 
-  const { host_profiles, ...userData } = data as any
+  if (!profile) {
+    const { data: directHost } = await supabase
+      .from('host_pages')
+      .select('*')
+      .eq('user_id', id)
+      .limit(1)
+      .maybeSingle()
+    if (directHost) {
+      profile = directHost
+    }
+  }
+
+  const { host_pages, host_profiles, ...userData } = data as any
 
   return {
     ...userData,

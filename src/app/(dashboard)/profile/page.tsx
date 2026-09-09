@@ -11,7 +11,50 @@ export default async function HostProfilePage() {
     redirect('/login')
   }
 
-  const dbUser = await getUserWithHostProfile(user.id)
+  let dbUser = await getUserWithHostProfile(user.id)
+  
+  if (!dbUser?.host_profile) {
+    // Fallback: check directly by user_id
+    const { data: fallbackHost } = await supabase
+      .from('host_pages')
+      .select('*')
+      .eq('user_id', user.id)
+      .maybeSingle()
+
+    if (fallbackHost) {
+      dbUser = {
+        ...dbUser,
+        host_profile: fallbackHost,
+      } as any
+    } else {
+      // Auto-create host_page if user is on host portal
+      const displayName = (dbUser as any)?.full_name || dbUser?.username || user.email?.split('@')[0] || 'Host'
+      const baseSlug = displayName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 30)
+      const randomSuffix = Math.random().toString(36).substring(2, 7)
+      const slug = `${baseSlug}-${randomSuffix}`
+
+      const { data: newHostPage } = await supabase
+        .from('host_pages')
+        .insert({
+          user_id: user.id,
+          display_name: displayName,
+          slug,
+          host_type: 'individual',
+          is_approved: true,
+          total_events_hosted: 0
+        })
+        .select()
+        .single()
+
+      if (newHostPage) {
+        dbUser = {
+          ...dbUser,
+          host_profile: newHostPage,
+        } as any
+      }
+    }
+  }
+
   if (!dbUser || !dbUser.host_profile) {
     return (
       <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
