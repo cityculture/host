@@ -52,13 +52,13 @@ serve(async (req: Request) => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Stranger Mingle <team@strangermingle.com>",
+        from: "City Culture <citycultureteam@gmail.com>",
         to: [recipientEmail],
         subject: subject,
         html: `
           <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #1f2937; background-color: #f9fafb;">
             <div style="text-align: center; margin-bottom: 32px;">
-              <h1 style="color: #4F46E5; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em;">Stranger Mingle</h1>
+              <h1 style="color: #4F46E5; margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em;">City Culture</h1>
             </div>
             
             <div style="background-color: #ffffff; padding: 40px; border-radius: 16px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
@@ -103,8 +103,8 @@ serve(async (req: Request) => {
             </div>
             
             <div style="margin-top: 32px; text-align: center; font-size: 13px; color: #9ca3af; line-height: 20px;">
-              <p style="margin-bottom: 8px;">You're receiving this because you use Stranger Mingle.</p>
-              <p style="margin: 0;">&copy; 2026 Stranger Mingle. All rights reserved.</p>
+              <p style="margin-bottom: 8px;">You're receiving this because you use City Culture.</p>
+              <p style="margin: 0;">&copy; 2026 City Culture. All rights reserved.</p>
               <p style="margin: 4px 0;">A Brand of Salty Media Production (opc) Pvt Ltd</p>
             </div>
           </div>

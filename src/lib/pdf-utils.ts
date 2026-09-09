@@ -58,11 +58,11 @@ export async function drawTicketPage(pdf: jsPDF, data: TicketData) {
   pdf.setFont('helvetica', 'bold');
   pdf.setFontSize(22);
   pdf.setTextColor(COLORS.WHITE);
-  pdf.text('S', 62, 68);
+  pdf.text('C', 62, 68);
 
   pdf.setFontSize(20);
   pdf.setTextColor(COLORS.TEXT_MAIN);
-  pdf.text('STRANGER MINGLE', 100, 60);
+  pdf.text('CITY CULTURE', 100, 60);
   addLabel('Premium Event Access', 100, 75, 9, COLORS.PRIMARY_BLUE);
 
   // Booking Ref
